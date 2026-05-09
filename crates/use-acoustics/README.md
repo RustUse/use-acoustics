@@ -1,41 +1,80 @@
 # use-acoustics
 
-Small acoustic helpers for frequency ranges, tones, and pressure levels.
+Composable primitive acoustics utilities for Rust.
 
-`use-acoustics` provides audible-band classification, a small `Tone` value type, wavelength
-helpers, and basic sound-pressure-level calculations for lightweight sound-domain code.
+`use-acoustics` provides a small, self-contained v0.1 API for common sound-domain calculations:
+frequency and period helpers, wavelength conversions, decibel conversions, sound pressure level,
+sound intensity level, and simple speed of sound approximations.
 
-## What this crate provides
+## Relationship To RustUse
 
-| Item                        | Purpose                                            |
-| --------------------------- | -------------------------------------------------- |
-| `AcousticBand`              | Infrasound, audible, and ultrasound classification |
-| `AUDIBLE_MIN_HZ` / `MAX_HZ` | Conventional audible-range constants               |
-| `classify_frequency_hz()`   | Frequency band classification                      |
-| `wavelength_meters()`       | Acoustic wavelength helper                         |
-| `sound_pressure_level_db()` | Pressure-ratio to decibel helper                   |
-| `Tone`                      | Small frequency-plus-amplitude value type          |
+`use-wave` is the broader wave utility set. `use-acoustics` is the sound-specific sibling that
+focuses on reusable primitives and small formulas for acoustics-oriented applications.
+
+## Warning
+
+The formulas in this crate are general-purpose approximations and convenience conversions. They
+are not a replacement for specialized acoustic engineering software, calibrated measurements, or
+standards-driven analysis.
 
 ## Installation
 
+Crates.io:
+
 ```toml
 [dependencies]
-use-acoustics = "0.1.0"
+use-acoustics = "0.1"
 ```
 
-## Example
+Local path:
+
+```toml
+[dependencies]
+use-acoustics = { path = "crates/use-acoustics" }
+```
+
+## Examples
 
 ```rust
-use use_acoustics::{is_audible_frequency_hz, sound_pressure_level_db, Tone};
+use use_acoustics::prelude::*;
 
-let tone = Tone::new(440.0, 0.6);
+let wavelength = wavelength_meters(440.0, SPEED_OF_SOUND_AIR_20C_MPS).unwrap();
+assert!((wavelength - 0.7795).abs() < 0.001);
 
-assert!(is_audible_frequency_hz(tone.frequency_hz));
-assert_eq!(sound_pressure_level_db(0.2, 0.000_02), Some(80.0));
+let spl = sound_pressure_level_db(1.0).unwrap();
+assert!((spl - 93.9794).abs() < 0.001);
 ```
+
+```rust
+use use_acoustics::prelude::*;
+
+let amplitude_ratio = db_to_amplitude_ratio(20.0).unwrap();
+let power_ratio = db_to_power_ratio(10.0).unwrap();
+
+assert!((amplitude_ratio - 10.0).abs() < 1.0e-12);
+assert!((power_ratio - 10.0).abs() < 1.0e-12);
+```
+
+## Module Overview
+
+| Module       | Purpose                                                  |
+| ------------ | -------------------------------------------------------- |
+| `decibel`    | Decibel ratios plus SPL and SIL conversions              |
+| `frequency`  | Frequency newtype, period, and angular frequency helpers |
+| `wavelength` | Frequency and wavelength conversion helpers              |
+| `pressure`   | Sound pressure newtype and SPL inverse conversion        |
+| `intensity`  | Sound intensity newtype and SIL inverse conversion       |
+| `speed`      | Speed of sound helpers                                   |
+| `prelude`    | Re-exports for the main public API                       |
 
 ## Scope
 
-- Coarse acoustic classification and helpers.
-- Small immutable values.
-- No filtering, synthesis, or room-modeling yet.
+- decibels and ratios
+- sound pressure level and sound intensity level
+- frequency, period, and angular frequency
+- wavelength conversions
+- speed of sound approximations
+
+## Status
+
+Early v0.1 API.

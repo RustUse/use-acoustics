@@ -1,6 +1,6 @@
 [package]
 name = "use-acoustics"
-description = "Acoustics primitives for audible ranges, tones, and sound-pressure helpers."
+description = "Composable primitive acoustics utilities for Rust."
 authors.workspace = true
 version.workspace = true
 edition.workspace = true
@@ -10,8 +10,11 @@ homepage.workspace = true
 rust-version.workspace = true
 readme = "README.md"
 documentation = "https://docs.rs/use-acoustics"
-keywords = ["acoustics", "audio", "sound", "rustuse"]
-categories = ["science"]
+keywords = ["acoustics", "sound", "decibel", "frequency", "audio"]
+categories = ["science", "mathematics"]
 
 [lints]
 workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
