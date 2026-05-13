@@ -79,6 +79,13 @@ assert!((amplitude_ratio - 10.0).abs() < 1.0e-12);
 assert!((power_ratio - 10.0).abs() < 1.0e-12);
 ```
 
+## License
+
+Licensed under either of the following, at your option:
+
+- MIT license: https://github.com/RustUse/.github/blob/main/LICENSE-MIT
+- Apache License, Version 2.0: https://github.com/RustUse/.github/blob/main/LICENSE-APACHE
+
 ## Status
 
 Early v0.1 API.
