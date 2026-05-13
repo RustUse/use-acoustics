@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## [0.1.0](https://github.com/RustUse/use-acoustics/releases/tag/v0.1.0) - 2026-05-13
+
+### Changed
+
+- Add use-acoustics crate and project scaffold
+- Add use-acoustics crate, docs, tests, and CI
+
 ### Added
 
 - Added the initial `use-acoustics` v0.1 crate with composable primitives for frequency,
